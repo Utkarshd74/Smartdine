@@ -140,7 +140,7 @@ app.get("/", (req, res) => {
 
 // Role selection page
 app.get("/role", (req, res) => {
-    res.render("auth/role");
+    res.render("auth/role.ejs");
 });
 
 
