@@ -1,0 +1,488 @@
+<% layout("/layouts/boilerplateNGO") %>
+
+<style>
+    .ngo-info-page {
+        background: #f7faf7;
+        padding-bottom: 50px;
+    }
+
+    .ngo-hero {
+        background: linear-gradient(135deg, #14532d, #198754);
+        color: white;
+        padding: 65px 20px;
+        text-align: center;
+    }
+
+    .ngo-hero h1 {
+        font-size: clamp(30px, 4vw, 45px);
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    .ngo-hero p {
+        max-width: 760px;
+        margin: auto;
+        line-height: 1.9;
+        font-size: 17px;
+        color: #e5f5e9;
+    }
+
+    .ngo-section {
+        padding: 55px 0;
+    }
+
+    .ngo-heading {
+        font-size: 30px;
+        font-weight: 800;
+        color: #203a29;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .ngo-subheading {
+        color: #6b786e;
+        text-align: center;
+        max-width: 720px;
+        margin: 0 auto 35px;
+        line-height: 1.8;
+    }
+
+    .ngo-info-card {
+        height: 100%;
+        background: white;
+        border: 1px solid #e8eee9;
+        border-radius: 18px;
+        padding: 28px;
+        transition: 0.25s ease;
+    }
+
+    .ngo-info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(30, 70, 40, 0.09);
+    }
+
+    .ngo-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        background: #e5f5e9;
+        color: #198754;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        margin-bottom: 20px;
+    }
+
+    .ngo-info-card h4 {
+        font-size: 20px;
+        font-weight: 750;
+        color: #203a29;
+        margin-bottom: 12px;
+    }
+
+    .ngo-info-card p {
+        color: #68756c;
+        line-height: 1.8;
+        margin-bottom: 0;
+    }
+
+    .ngo-mission {
+        background: white;
+        border-radius: 20px;
+        padding: 35px;
+        border-left: 5px solid #198754;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.04);
+    }
+
+    .ngo-mission p {
+        color: #68756c;
+        line-height: 1.9;
+        font-size: 16px;
+    }
+
+    .ngo-step {
+        position: relative;
+        padding: 25px;
+        text-align: center;
+    }
+
+    .ngo-step-number {
+        width: 55px;
+        height: 55px;
+        background: #198754;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+        font-weight: 800;
+        margin: 0 auto 18px;
+    }
+
+    .ngo-step h5 {
+        font-weight: 750;
+        color: #203a29;
+        margin-bottom: 12px;
+    }
+
+    .ngo-step p {
+        color: #68756c;
+        line-height: 1.8;
+    }
+
+    .ngo-cta {
+        background: #e7f5eb;
+        border-radius: 20px;
+        padding: 40px 25px;
+        text-align: center;
+    }
+
+    .ngo-cta h2 {
+        color: #14532d;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+
+    .ngo-cta p {
+        color: #53665a;
+        line-height: 1.8;
+        max-width: 700px;
+        margin: 0 auto 25px;
+    }
+
+    .ngo-primary-btn {
+        display: inline-block;
+        background: #198754;
+        color: white;
+        text-decoration: none;
+        padding: 13px 25px;
+        border-radius: 10px;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .ngo-primary-btn:hover {
+        background: #14532d;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .ngo-secondary-btn {
+        display: inline-block;
+        border: 1px solid #198754;
+        color: #198754;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 700;
+    }
+
+    .ngo-secondary-btn:hover {
+        background: #198754;
+        color: white;
+    }
+
+    @media (max-width: 576px) {
+        .ngo-hero {
+            padding: 45px 20px;
+        }
+
+        .ngo-section {
+            padding: 38px 0;
+        }
+
+        .ngo-mission {
+            padding: 25px;
+        }
+    }
+</style>
+
+<div class="ngo-info-page">
+
+    <!-- Hero Section -->
+    <section class="ngo-hero">
+        <div class="container">
+
+            <div class="mb-4">
+                <i class="fa-solid fa-hand-holding-heart fa-3x"></i>
+            </div>
+
+            <h1>Together, We Can Make a Difference</h1>
+
+            <p>
+                Welcome to SmartDine's NGO community — a platform that
+                connects food donors with organizations working to support
+                people in need. Our goal is to make surplus food useful,
+                reduce unnecessary waste and encourage responsible food sharing.
+            </p>
+
+            <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+
+                <a href="/ngo/donations" class="ngo-primary-btn">
+                    <i class="fa-solid fa-utensils me-2"></i>
+                    Explore Food Donations
+                </a>
+
+                <a href="#our-mission" class="ngo-secondary-btn"
+                   style="border-color:white;color:white;">
+                    Learn About Our Mission
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- About Food Donation -->
+    <section class="ngo-section">
+        <div class="container">
+
+            <h2 class="ngo-heading">Why Food Donation Matters</h2>
+
+            <p class="ngo-subheading">
+                Food is more than a basic necessity. Sharing surplus food
+                responsibly can support communities, reduce waste and help
+                build a more caring society.
+            </p>
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <div class="ngo-info-card">
+
+                        <div class="ngo-icon">
+                            <i class="fa-solid fa-bowl-food"></i>
+                        </div>
+
+                        <h4>Support People in Need</h4>
+
+                        <p>
+                            Donating safe, surplus food can help NGOs provide
+                            meals to people and communities facing food insecurity.
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="ngo-info-card">
+
+                        <div class="ngo-icon">
+                            <i class="fa-solid fa-leaf"></i>
+                        </div>
+
+                        <h4>Reduce Food Waste</h4>
+
+                        <p>
+                            Redirecting suitable surplus food towards donation
+                            helps prevent edible food from being unnecessarily
+                            discarded.
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="ngo-info-card">
+
+                        <div class="ngo-icon">
+                            <i class="fa-solid fa-people-group"></i>
+                        </div>
+
+                        <h4>Build Stronger Communities</h4>
+
+                        <p>
+                            Cooperation between restaurants, NGOs and communities
+                            encourages compassion, social responsibility and
+                            collective action.
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Our Mission -->
+    <section class="container mb-4" id="our-mission">
+
+        <div class="ngo-mission">
+
+            <div class="row align-items-center g-4">
+
+                <div class="col-md-2 text-center">
+                    <i class="fa-solid fa-heart-circle-check fa-4x text-success"></i>
+                </div>
+
+                <div class="col-md-10">
+
+                    <h2 class="ngo-heading text-start">
+                        Our Mission at SmartDine
+                    </h2>
+
+                    <p class="mb-0">
+                        SmartDine aims to create a simple connection between
+                        food donors and NGOs. Restaurants can share surplus
+                        food through donation requests, while NGOs can review
+                        eligible donations and coordinate their collection.
+                        Through this process, the platform promotes food
+                        sharing, responsible resource use and community support.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- How It Works -->
+    <section class="ngo-section">
+        <div class="container">
+
+            <h2 class="ngo-heading">How SmartDine Works</h2>
+
+            <p class="ngo-subheading">
+                A simple process to help suitable surplus food reach
+                organizations that can distribute it responsibly.
+            </p>
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <div class="ngo-step">
+
+                        <div class="ngo-step-number">1</div>
+
+                        <h5>Food Is Donated</h5>
+
+                        <p>
+                            Restaurants submit donation requests with
+                            information about the available food and quantity.
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="ngo-step">
+
+                        <div class="ngo-step-number">2</div>
+
+                        <h5>NGO Reviews Requests</h5>
+
+                        <p>
+                            NGOs check available donations and accept suitable
+                            requests for collection.
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="ngo-step">
+
+                        <div class="ngo-step-number">3</div>
+
+                        <h5>Food Reaches Communities</h5>
+
+                        <p>
+                            The NGO coordinates collection and distribution,
+                            following appropriate food-safety practices.
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- NGO Responsibilities -->
+    <section class="container mb-5">
+
+        <h2 class="ngo-heading">The Role of an NGO</h2>
+
+        <p class="ngo-subheading">
+            Responsible food donation involves more than collecting food.
+            Careful coordination helps make the process useful and safe.
+        </p>
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+                <div class="ngo-info-card">
+
+                    <div class="ngo-icon">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+
+                    <h4>Review Donation Details</h4>
+
+                    <p>
+                        Check the available food, quantities and collection
+                        information before accepting a donation request.
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="ngo-info-card">
+
+                    <div class="ngo-icon">
+                        <i class="fa-solid fa-truck"></i>
+                    </div>
+
+                    <h4>Coordinate Collection</h4>
+
+                    <p>
+                        Arrange collection with the donor and handle food
+                        according to appropriate hygiene, storage and
+                        transportation requirements.
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Call To Action -->
+    <section class="container mb-5">
+
+        <div class="ngo-cta">
+
+            <i class="fa-solid fa-seedling fa-3x text-success mb-3"></i>
+
+            <h2>Be a Part of the Change</h2>
+
+            <p>
+                Every responsible donation is an opportunity to reduce food
+                waste and support people in need. Explore the donations
+                available through SmartDine and help make food sharing
+                more effective.
+            </p>
+
+            <a href="/ngo/donations" class="ngo-primary-btn">
+                <i class="fa-solid fa-hand-holding-heart me-2"></i>
+                View Available Donations
+            </a>
+
+        </div>
+
+    </section>
+
+</div>

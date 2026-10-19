@@ -1,0 +1,107 @@
+<% layout("/layouts/boilerplateNGO") %>
+
+<div class="container py-5">
+
+    <h2 class="fw-bold mb-2">
+        <i class="fa-solid fa-box-open text-success me-2"></i>
+        My Donations
+    </h2>
+
+    <p class="text-muted mb-4">
+        Manage your accepted donations and track their progress.
+    </p>
+
+    <% if (donations.length === 0) { %>
+
+        <div class="alert alert-info">
+            You have no accepted donations yet.
+        </div>
+
+    <% } else { %>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle bg-white shadow-sm">
+
+                <thead class="table-success">
+                    <tr>
+                        <th>Restaurant</th>
+                        <th>Food Items</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% donations.forEach(donation => { %>
+
+                        <tr>
+                            <td>
+                                <strong>
+                                    <%= donation.restaurant
+                                        ? donation.restaurant.restaurantName
+                                        : "Restaurant unavailable" %>
+                                </strong>
+                            </td>
+
+                            <td>
+                                <% donation.items.forEach(item => { %>
+                                    <div>
+                                        <%= item.name %> × <%= item.quantity %>
+                                    </div>
+                                <% }) %>
+                            </td>
+
+                            <td>
+                                <span class="badge
+                                    <%= donation.status === 'Completed'
+                                        ? 'bg-success'
+                                        : donation.status === 'Pickup Confirmed'
+                                        ? 'bg-info text-dark'
+                                        : 'bg-warning text-dark' %>">
+                                    <%= donation.status %>
+                                </span>
+                            </td>
+
+                            <td>
+                                <% if (donation.status === "Accepted") { %>
+
+                                    <form
+                                        action="/ngo/donations/<%= donation._id %>/pickup"
+                                        method="POST"
+                                    >
+                                        <button class="btn btn-primary btn-sm">
+                                            Confirm Pickup
+                                        </button>
+                                    </form>
+
+                                <% } else if (donation.status === "Pickup Confirmed") { %>
+
+                                    <form
+                                        action="/ngo/donations/<%= donation._id %>/complete"
+                                        method="POST"
+                                    >
+                                        <button class="btn btn-success btn-sm">
+                                            Mark Completed
+                                        </button>
+                                    </form>
+
+                                <% } else { %>
+
+                                    <span class="text-success">
+                                        <i class="fa-solid fa-check-circle me-1"></i>
+                                        Completed
+                                    </span>
+
+                                <% } %>
+                            </td>
+                        </tr>
+
+                    <% }) %>
+                </tbody>
+
+            </table>
+        </div>
+
+    <% } %>
+
+</div>

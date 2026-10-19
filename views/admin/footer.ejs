@@ -1,0 +1,33 @@
+<footer class="admin-footer">
+
+    <div>
+        © <%= new Date().getFullYear() %> SmartDine. All rights reserved.
+    </div>
+
+    <div>
+        Admin Panel
+    </div>
+
+</footer>
+
+<style>
+    .admin-footer {
+        margin-left: 250px;
+        padding: 18px 30px;
+        border-top: 1px solid #eee;
+        background: #fff;
+        color: #888;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    @media (max-width: 768px) {
+        .admin-footer {
+            margin-left: 75px;
+            padding: 15px 20px;
+        }
+    }
+</style>

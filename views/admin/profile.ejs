@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Profile | SmartDine</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f7f8fa;
+            font-family: Arial, sans-serif;
+            color: #222;
+        }
+
+        .topbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 23px;
+            font-weight: 700;
+            color: #ff4b16;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: #ff4b16;
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #555;
+            border: 1px solid #ddd;
+            padding: 9px 18px;
+            border-radius: 7px;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #ff4b16;
+            color: white;
+            border-color: #ff4b16;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: #777;
+            margin: 0;
+        }
+
+        .profile-card,
+        .password-card {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .profile-header,
+        .password-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .profile-header h4,
+        .password-header h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .edit-btn {
+            background: white;
+            border: 1px solid #ff4b16;
+            color: #ff4b16;
+            padding: 8px 18px;
+            border-radius: 7px;
+            font-weight: 600;
+        }
+
+        .edit-btn:hover {
+            background: #ff4b16;
+            color: white;
+        }
+
+        .profile-content {
+            display: flex;
+            gap: 60px;
+        }
+
+        .information {
+            flex: 1;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 22px;
+        }
+
+        .info-label {
+            width: 170px;
+            color: #777;
+            font-weight: 500;
+        }
+
+        .info-value {
+            flex: 1;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .restaurant-logo {
+            width: 210px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .logo-image {
+            width: 145px;
+            height: 145px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid #fff3ed;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .change-logo {
+            margin-top: 15px;
+            border: 1px solid #ff4b16;
+            background: white;
+            color: #ff4b16;
+            padding: 8px 20px;
+            border-radius: 7px;
+        }
+
+        .change-logo:hover {
+            background: #ff4b16;
+            color: white;
+        }
+
+        .description-box {
+            margin-top: 5px;
+            padding: 15px;
+            background: #fff7ed;
+            border-radius: 8px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .password-card {
+            margin-top: 25px;
+        }
+
+        .password-header {
+            justify-content: flex-start;
+            gap: 15px;
+        }
+
+        .password-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: #fff3ed;
+            color: #ff4b16;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .password-header p {
+            margin: 4px 0 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .password-form {
+            max-width: 650px;
+        }
+
+        .password-form label {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .password-form .form-control {
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .password-form .form-control:focus {
+            border-color: #ff4b16;
+            box-shadow: 0 0 0 3px rgba(255, 75, 22, 0.1);
+        }
+
+        .password-btn {
+            background: #ff4b16;
+            color: white;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 7px;
+            font-weight: 600;
+        }
+
+        .password-btn:hover {
+            background: #e94312;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            color: #999;
+            margin: 35px 0 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .main-container {
+                width: 94%;
+            }
+
+            .profile-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .restaurant-logo {
+                width: 100%;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .info-label {
+                width: auto;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <% layout("/layouts/boilerplateA") %>
+
+    
+
+    <div class="topbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+
+            SmartDine
+
+        </div>
+
+        <a href="/role" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Role
+        </a>
+
+    </div>
+
+    <div class="main-container">
+
+        <div class="page-title">
+
+            <h2>Admin Profile</h2>
+
+            <p>
+                Manage your restaurant and account information
+            </p>
+
+        </div>
+
+        <!-- PROFILE CARD -->
+
+        <div class="profile-card">
+
+            <div class="profile-header">
+
+                <h4>
+                    Restaurant & Admin Information
+                </h4>
+
+                <button class="edit-btn">
+                    <i class="fa-solid fa-pen"></i>
+                    Edit Profile
+                </button>
+
+            </div>
+
+            <div class="profile-content">
+
+                <div class="information">
+
+                    <div class="info-row">
+
+                        <div class="info-label">
+                            Restaurant Name
+                        </div>
+
+                        <div class="info-value">
+                            <%= admin.restaurantName || "Not Available" %>
+                        </div>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <div class="info-label">
+                            Owner Name
+                        </div>
+
+                        <div class="info-value">
+                            <%= admin.name || "Not Available" %>
+                        </div>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <div class="info-label">
+                            Email Address
+                        </div>
+
+                        <div class="info-value">
+                            <%= admin.email || "Not Available" %>
+                        </div>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <div class="info-label">
+                            Phone Number
+                        </div>
+
+                        <div class="info-value">
+                            <%= admin.phone || "Not Available" %>
+                        </div>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <div class="info-label">
+                            Restaurant Address
+                        </div>
+
+                        <div class="info-value">
+                            <%= admin.address || "Not Available" %>
+                        </div>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <div class="info-label">
+                            Description
+                        </div>
+
+                        <div class="info-value">
+
+                            <div class="description-box">
+                                <%= admin.description || "No description added." %>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- RESTAURANT IMAGE -->
+
+                <div class="restaurant-logo">
+
+                    <img
+                        src="<%= admin.image && admin.image.url
+                            ? admin.image.url
+                            : '/images/default-restaurant.png' %>"
+                        class="logo-image"
+                        alt="Restaurant Logo"
+                    >
+
+                    <button class="change-logo">
+                        <i class="fa-solid fa-camera"></i>
+                        Change Logo
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CHANGE PASSWORD -->
+
+        <div class="password-card">
+
+            <div class="password-header">
+
+                <div class="password-icon">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+
+                <div>
+
+                    <h4>
+                        Change Password
+                    </h4>
+
+                    <p>
+                        Keep your SmartDine account secure by updating your password.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <form
+                action="/admin/changepass"
+                method="POST"
+                class="password-form"
+            >
+
+                <div class="mb-3">
+
+                    <label for="currentPassword">
+                        Current Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="currentPassword"
+                        name="currentPassword"
+                        class="form-control"
+                        placeholder="Enter current password"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label for="newPassword">
+                        New Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="newPassword"
+                        name="newPassword"
+                        class="form-control"
+                        placeholder="Enter new password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label for="confirmPassword">
+                        Confirm New Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        class="form-control"
+                        placeholder="Confirm new password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="password-btn"
+                >
+                    <i class="fa-solid fa-key"></i>
+                    Change Password
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <%- include("footer.ejs") %>
+   
+
+</body>
+
+</html>

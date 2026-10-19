@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurants | SmartDine</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #ffffff;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            color: #222;
+        }
+
+        .restaurant-page {
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px 25px 60px;
+        }
+
+        .page-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 20px;
+        }
+
+        .page-top h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .filter-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box {
+            width: 240px;
+            height: 42px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            background: white;
+        }
+
+        .search-box i {
+            color: #999;
+            margin-right: 8px;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .filter-btn {
+            height: 42px;
+            padding: 0 18px;
+            border: 1px solid #e5e5e5;
+            background: white;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .restaurant-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .restaurant-card {
+            min-height: 145px;
+            border: 1px solid #eeeeee;
+            border-radius: 13px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: white;
+            transition: 0.2s ease;
+        }
+
+        .restaurant-card:hover {
+            box-shadow: 0 7px 22px rgba(0, 0, 0, 0.07);
+            transform: translateY(-2px);
+        }
+
+        .restaurant-image {
+            width: 165px;
+            height: 115px;
+            object-fit: cover;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .restaurant-placeholder {
+            width: 165px;
+            height: 115px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: #fff2ec;
+            color: #ff4b16;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .restaurant-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .restaurant-name {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .restaurant-description {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .restaurant-meta {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .rating {
+            color: #ff9d00;
+            font-weight: 600;
+        }
+
+        .rating span {
+            color: #555;
+        }
+
+        .address {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #777;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .address i {
+            color: #ff4b16;
+            margin-right: 5px;
+        }
+
+        .view-btn {
+            width: 105px;
+            padding: 10px 8px;
+            border-radius: 7px;
+            background: #ff4b16;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .view-btn:hover {
+            background: #e94310;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-state i {
+            color: #ff4b16;
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+       
+
+        @media (max-width: 768px) {
+
+            .restaurant-page {
+                padding: 25px 15px 50px;
+            }
+
+            .page-top {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .filter-area {
+                width: 100%;
+            }
+
+            .search-box {
+                flex: 1;
+            }
+
+            .restaurant-card {
+                align-items: flex-start;
+            }
+
+            .restaurant-image,
+            .restaurant-placeholder {
+                width: 120px;
+                height: 100px;
+            }
+
+            .view-btn {
+                width: 90px;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .restaurant-card {
+                flex-wrap: wrap;
+            }
+
+            .restaurant-image,
+            .restaurant-placeholder {
+                width: 100%;
+                height: 180px;
+            }
+
+            .restaurant-info {
+                width: 100%;
+            }
+
+            .view-btn {
+                width: 100%;
+            }
+
+            .restaurant-meta {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <%- include("../includes/flash.ejs") %>
+    <%- include("../includes/customerNavbar.ejs") %>
+
+<div class="restaurant-page">
+
+    <div class="page-top">
+
+        <h1>
+            All Restaurants
+        </h1>
+
+        <div class="filter-area">
+
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="restaurantSearch"
+                    placeholder="Search restaurants..."
+                >
+            </div>
+
+            <button class="filter-btn">
+                <i class="fa-solid fa-filter me-1"></i>
+                Filter
+            </button>
+
+        </div>
+
+    </div>
+
+    <% if (restaurants.length > 0) { %>
+
+        <div class="restaurant-list" id="restaurantList">
+
+            <% restaurants.forEach(restaurant => { %>
+
+                <div
+                    class="restaurant-card"
+                    data-name="<%= restaurant.restaurantName.toLowerCase() %>"
+                >
+
+                    <% if (restaurant.image && restaurant.image.url) { %>
+
+                        <img
+                            src="<%= restaurant.image.url %>"
+                            alt="<%= restaurant.restaurantName %>"
+                            class="restaurant-image"
+                        >
+
+                    <% } else { %>
+
+                        <div class="restaurant-placeholder">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+
+                    <% } %>
+
+
+                    <div class="restaurant-info">
+
+                        <div class="restaurant-name">
+                            <%= restaurant.restaurantName %>
+                        </div>
+
+                        <div class="restaurant-description">
+                            <%= restaurant.description || "Delicious food and great service." %>
+                        </div>
+
+                        <div class="restaurant-meta">
+
+                            <div class="rating">
+                                <i class="fa-solid fa-star"></i>
+                                4.0
+                            </div>
+
+                            <span>
+                                • 20-30 min
+                            </span>
+
+                            <span>
+                                • Min. Order ₹199
+                            </span>
+
+                        </div>
+
+                        <div class="address">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <%= restaurant.address %>
+                        </div>
+
+                    </div>
+
+                    <a
+                        href="/customer/restaurants/<%= restaurant._id %>"
+                        class="view-btn"
+                    >
+                        View More
+                    </a>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    <% } else { %>
+
+        <div class="empty-state">
+
+            <i class="fa-solid fa-store-slash"></i>
+
+            <h3>
+                No Restaurants Available
+            </h3>
+
+            <p class="text-muted">
+                Restaurants will appear here once they are added.
+            </p>
+
+        </div>
+
+    <% } %>
+
+
+   
+
+</div>
+
+<script>
+    const searchInput = document.getElementById("restaurantSearch");
+
+    searchInput.addEventListener("input", function () {
+
+        const searchValue = this.value.toLowerCase().trim();
+
+        const cards = document.querySelectorAll(".restaurant-card");
+
+        cards.forEach(card => {
+
+            const name = card.dataset.name;
+
+            if (name.includes(searchValue)) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+
+        });
+
+    });
+</script>
+
+<%- include("../includes/customerFooter.ejs") %>
+
+</body>
+</html>

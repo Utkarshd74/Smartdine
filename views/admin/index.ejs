@@ -1,0 +1,285 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    .manage-container {
+        padding: 30px;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .page-header h2 {
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .page-header p {
+        margin: 5px 0 0;
+        color: #777;
+    }
+
+    .add-btn {
+        background: #ff5a1f;
+        color: white;
+        padding: 11px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .add-btn:hover {
+        background: #e94d16;
+        color: white;
+    }
+
+    .search-box {
+        margin-bottom: 20px;
+    }
+
+    .search-box input {
+        width: 100%;
+        padding: 13px 16px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        outline: none;
+    }
+
+    .table-box {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    }
+
+    .items-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .items-table th {
+        background: #fafafa;
+        padding: 16px;
+        text-align: left;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .items-table td {
+        padding: 14px 16px;
+        border-top: 1px solid #eee;
+        vertical-align: middle;
+    }
+
+    .food-image {
+        width: 55px;
+        height: 55px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .food-name {
+        font-weight: 600;
+    }
+
+    .available {
+        color: #159447;
+        font-weight: 600;
+    }
+
+    .not-available {
+        color: #e53935;
+        font-weight: 600;
+    }
+
+    .action-btn {
+        border: none;
+        background: none;
+        font-size: 18px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .edit-btn {
+        color: #333;
+    }
+
+    .delete-btn {
+        color: #e53935;
+    }
+
+    .empty-box {
+        text-align: center;
+        padding: 70px 20px;
+    }
+
+    @media (max-width: 768px) {
+        .manage-container {
+            padding: 15px;
+        }
+
+        .table-box {
+            overflow-x: auto;
+        }
+
+        .items-table {
+            min-width: 750px;
+        }
+
+        .page-header {
+            align-items: flex-start;
+            gap: 15px;
+        }
+    }
+</style>
+
+ <% layout("/layouts/boilerplateA") %>
+
+<div class="manage-container">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Manage Food</h2>
+            <p>Manage all food items of your restaurant.</p>
+        </div>
+
+        <a href="/admin/items/new" class="add-btn">
+            + Add New Food
+        </a>
+
+    </div>
+
+    <div class="search-box">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search food items..."
+        >
+    </div>
+
+    <div class="table-box">
+
+        <% if (items.length === 0) { %>
+
+            <div class="empty-box">
+                <h3>No Food Items</h3>
+                <p>You haven't added any food items yet.</p>
+
+                <a href="/admin/items/new" class="add-btn">
+                    Add Your First Food
+                </a>
+            </div>
+
+        <% } else { %>
+
+            <table class="items-table">
+
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Food Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Available</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="itemsTable">
+
+                    <% items.forEach(item => { %>
+
+                        <tr>
+
+                            <td>
+                                <img
+                                    src="<%= item.image && item.image.url ? item.image.url : '/images/default-food.jpg' %>"
+                                    class="food-image"
+                                >
+                            </td>
+
+                            <td class="food-name">
+                                <%= item.name %>
+                            </td>
+
+                            <td>
+                                <%= item.category %>
+                            </td>
+
+                            <td>
+                                ₹<%= item.price %>
+                            </td>
+
+                            <td>
+                                <% if (item.isAvailable) { %>
+                                    <span class="available">Yes</span>
+                                <% } else { %>
+                                    <span class="not-available">No</span>
+                                <% } %>
+                            </td>
+
+                            <td>
+
+                                <a
+                                    href="/admin/items/<%= item._id %>/edit"
+                                    class="action-btn edit-btn"
+                                >
+                                    ✏️
+                                </a>
+
+                                <form
+                                    action="/admin/items/<%= item._id %>?_method=DELETE"
+                                    method="POST"
+                                    style="display:inline;"
+                                >
+                                    <button
+                                        type="submit"
+                                        class="action-btn delete-btn"
+                                    >
+                                        🗑️
+                                    </button>
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        <% } %>
+
+    </div>
+
+</div>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+
+    searchInput.addEventListener("input", function () {
+
+        const searchValue = this.value.toLowerCase();
+
+        document.querySelectorAll("#itemsTable tr").forEach(row => {
+
+            const foodName = row
+                .querySelector(".food-name")
+                .textContent
+                .toLowerCase();
+
+            row.style.display = foodName.includes(searchValue)
+                ? ""
+                : "none";
+        });
+
+    });
+</script>
+
+<%- include("footer.ejs") %>

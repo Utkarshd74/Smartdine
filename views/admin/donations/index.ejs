@@ -1,0 +1,560 @@
+<% layout("/layouts/boilerplateA") %>
+
+<style>
+    .donations-page {
+        min-height: 80vh;
+        padding: 35px 0 60px;
+        background: #f8faf9;
+    }
+
+    .donations-header {
+        background: linear-gradient(135deg, #14532d, #16a34a);
+        color: white;
+        padding: 30px;
+        border-radius: 18px;
+        margin-bottom: 30px;
+    }
+
+    .donations-header h1 {
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .donations-header p {
+        margin-bottom: 0;
+        opacity: 0.9;
+    }
+
+    .donation-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 15px;
+        padding: 24px;
+        margin-bottom: 22px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    }
+
+    .donation-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 15px;
+        flex-wrap: wrap;
+        padding-bottom: 18px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .donation-card h4 {
+        font-size: 19px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .donation-date {
+        color: #777;
+        font-size: 13px;
+    }
+
+    .donation-badge {
+        display: inline-block;
+        padding: 7px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .badge-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .badge-approved {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .badge-rejected,
+    .badge-cancelled {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .badge-accepted {
+        background: #ede9fe;
+        color: #6d28d9;
+    }
+
+    .badge-pickup {
+        background: #cffafe;
+        color: #155e75;
+    }
+
+    .badge-completed {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .badge-available {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+    .donation-items {
+        padding: 18px 0;
+    }
+
+    .donation-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 10px 0;
+        font-size: 14px;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .donation-item:last-child {
+        border-bottom: none;
+    }
+
+    .food-name {
+        font-weight: 700;
+    }
+
+    .food-quantity {
+        color: #777;
+        margin-left: 8px;
+    }
+
+    .food-price {
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .donation-message {
+        padding: 13px;
+        background: #f0fdf4;
+        color: #166534;
+        border-radius: 9px;
+        font-size: 13px;
+        margin-bottom: 18px;
+    }
+
+    .donation-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding-top: 18px;
+        border-top: 1px solid #eee;
+    }
+
+    .btn-approve {
+        background: #15803d;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 18px;
+        font-weight: 700;
+    }
+
+    .btn-approve:hover {
+        background: #166534;
+        color: white;
+    }
+
+    .btn-reject {
+        background: #dc2626;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 18px;
+        font-weight: 700;
+    }
+
+    .btn-reject:hover {
+        background: #b91c1c;
+        color: white;
+    }
+
+    .empty-state {
+        background: white;
+        border: 1px dashed #d1d5db;
+        border-radius: 15px;
+        padding: 55px 20px;
+        text-align: center;
+    }
+
+    .empty-state i {
+        font-size: 45px;
+        color: #16a34a;
+        margin-bottom: 18px;
+    }
+
+    .empty-state h3 {
+        font-weight: 800;
+    }
+
+    .empty-state p {
+        color: #777;
+        margin-bottom: 22px;
+    }
+
+    .back-btn {
+        display: inline-block;
+        padding: 10px 17px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #374151;
+        font-weight: 600;
+        background: white;
+    }
+
+    .back-btn:hover {
+        background: #f3f4f6;
+        color: #111827;
+    }
+
+    @media (max-width: 600px) {
+        .donation-card {
+            padding: 17px;
+        }
+
+        .donations-header {
+            padding: 22px;
+        }
+
+        .donations-header h1 {
+            font-size: 25px;
+        }
+    }
+</style>
+
+
+<div class="donations-page">
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="donations-header">
+            <h1>
+                <i class="fa-solid fa-hand-holding-heart me-2"></i>
+                Manage Donations
+            </h1>
+
+            <p>
+                Review customer donation requests and track your restaurant's donations.
+            </p>
+        </div>
+
+
+        <!-- Flash Messages -->
+        <% if (typeof success !== "undefined" && success.length) { %>
+            <% success.forEach(message => { %>
+                <div class="alert alert-success alert-dismissible fade show">
+                    <%= message %>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="alert"></button>
+                </div>
+            <% }) %>
+        <% } %>
+
+        <% if (typeof error !== "undefined" && error.length) { %>
+            <% error.forEach(message => { %>
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <%= message %>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="alert"></button>
+                </div>
+            <% }) %>
+        <% } %>
+
+
+        <!-- Navigation -->
+        <div class="d-flex justify-content-between align-items-center
+            flex-wrap gap-3 mb-4">
+
+            <div>
+                <h3 class="fw-bold mb-1">Donation Requests</h3>
+                <p class="text-muted mb-0">
+                    View requests and their current progress.
+                </p>
+            </div>
+
+            <a href="/admin/donations/new" class="btn btn-success">
+                <i class="fa-solid fa-plus me-2"></i>
+                Donate Surplus Food
+            </a>
+
+        </div>
+
+
+        <!-- Donation List -->
+        <% if (donations && donations.length > 0) { %>
+
+            <% donations.forEach(donation => { %>
+
+                <div class="donation-card">
+
+                    <div class="donation-card-header">
+
+                        <div>
+                            <h4>
+                                <i class="fa-solid fa-heart text-success me-2"></i>
+
+                                <%= donation.donationType === "Customer"
+                                    ? "Customer Donation Request"
+                                    : "Restaurant Donation" %>
+                            </h4>
+
+                            <div class="donation-date">
+                                Submitted on
+                                <%= new Date(donation.createdAt).toLocaleString("en-IN") %>
+                            </div>
+
+                            <div class="donation-date mt-1">
+                                Donation ID:
+                                <%= donation._id %>
+                            </div>
+                        </div>
+
+
+                        <!-- Current Status -->
+                        <div>
+
+                            <% if (donation.status === "Cancelled") { %>
+
+                                <span class="donation-badge badge-cancelled">
+                                    Cancelled
+                                </span>
+
+                            <% } else if (donation.approvalStatus === "Rejected") { %>
+
+                                <span class="donation-badge badge-rejected">
+                                    Rejected
+                                </span>
+
+                            <% } else if (donation.approvalStatus === "Pending") { %>
+
+                                <span class="donation-badge badge-pending">
+                                    Pending Approval
+                                </span>
+
+                            <% } else if (donation.status === "Completed") { %>
+
+                                <span class="donation-badge badge-completed">
+                                    Completed
+                                </span>
+
+                            <% } else if (donation.status === "Pickup Confirmed") { %>
+
+                                <span class="donation-badge badge-pickup">
+                                    Pickup Confirmed
+                                </span>
+
+                            <% } else if (donation.status === "Accepted") { %>
+
+                                <span class="donation-badge badge-accepted">
+                                    Accepted by NGO
+                                </span>
+
+                            <% } else if (donation.approvalStatus === "Approved") { %>
+
+                                <span class="donation-badge badge-approved">
+                                    Approved — Waiting for NGO
+                                </span>
+
+                            <% } else if (donation.approvalStatus === "NotRequired") { %>
+
+                                <span class="donation-badge badge-available">
+                                    Available for NGO
+                                </span>
+
+                            <% } else { %>
+
+                                <span class="donation-badge badge-pending">
+                                    <%= donation.status %>
+                                </span>
+
+                            <% } %>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Food Items -->
+                    <div class="donation-items">
+
+                        <% (donation.items || []).forEach(item => { %>
+
+                            <div class="donation-item">
+
+                                <div>
+                                    <span class="food-name">
+                                        <%= item.name || item.foodItem?.name || "Food Item" %>
+                                    </span>
+
+                                    <span class="food-quantity">
+                                        × <%= item.quantity %>
+                                    </span>
+                                </div>
+
+                                <div class="food-price">
+                                    <%= donation.donationType === "Restaurant"
+                                        ? "Donated"
+                                        : "₹" + (Number(item.price || 0) * Number(item.quantity || 0)) %>
+                                </div>
+
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+
+                    <!-- Optional Message -->
+                    <% if (donation.message) { %>
+
+                        <div class="donation-message">
+                            <i class="fa-regular fa-message me-2"></i>
+                            <strong>Message:</strong>
+                            <%= donation.message %>
+                        </div>
+
+                    <% } %>
+
+
+                    <!-- Payment Information -->
+                    <% if (donation.donationType === "Customer") { %>
+
+                        <p class="text-muted small mb-3">
+                            <i class="fa-solid fa-credit-card me-1"></i>
+                            Payment status:
+                            <strong><%= donation.paymentStatus %></strong>
+                        </p>
+
+                    <% } %>
+
+
+                    <!-- Approve / Reject Actions -->
+                    <% if (
+                        donation.donationType === "Customer" &&
+                        donation.approvalStatus === "Pending" &&
+                        donation.status === "Pending"
+                    ) { %>
+
+                        <div class="donation-actions">
+
+                            <form
+                                action="/admin/donations/<%= donation._id %>/status"
+                                method="POST"
+                                onsubmit="return confirm('Are you sure you want to approve this donation?');">
+
+                                <input
+                                    type="hidden"
+                                    name="status"
+                                    value="Approved">
+
+                                <button type="submit" class="btn btn-approve">
+                                    <i class="fa-solid fa-check me-1"></i>
+                                    Approve Donation
+                                </button>
+
+                            </form>
+
+
+                            <form
+                                action="/admin/donations/<%= donation._id %>/status"
+                                method="POST"
+                                onsubmit="return confirm('Are you sure you want to reject this donation?');">
+
+                                <input
+                                    type="hidden"
+                                    name="status"
+                                    value="Rejected">
+
+                                <button type="submit" class="btn btn-reject">
+                                    <i class="fa-solid fa-xmark me-1"></i>
+                                    Reject Donation
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    <% } else if (donation.donationType === "Customer" && donation.approvalStatus === "Approved") { %>
+
+                        <div class="donation-message">
+                            <i class="fa-solid fa-circle-check me-2"></i>
+                            Approved. This donation is available for NGOs.
+                        </div>
+
+                    <% } else if (donation.approvalStatus === "Rejected") { %>
+
+                        <div class="donation-message"
+                            style="background:#fef2f2;color:#991b1b;">
+
+                            <i class="fa-solid fa-circle-xmark me-2"></i>
+                            This donation request has been rejected.
+
+                        </div>
+
+                    <% } else if (donation.status === "Accepted") { %>
+
+                        <div class="donation-message">
+                            <i class="fa-solid fa-handshake me-2"></i>
+                            An NGO has accepted this donation.
+                        </div>
+
+                    <% } else if (donation.status === "Pickup Confirmed") { %>
+
+                        <div class="donation-message">
+                            <i class="fa-solid fa-truck me-2"></i>
+                            Pickup has been confirmed by the NGO.
+                        </div>
+
+                    <% } else if (donation.status === "Completed") { %>
+
+                        <div class="donation-message">
+                            <i class="fa-solid fa-circle-check me-2"></i>
+                            This donation has been completed successfully.
+                        </div>
+
+                    <% } %>
+
+                </div>
+
+            <% }) %>
+
+        <% } else { %>
+
+            <div class="empty-state">
+
+                <i class="fa-solid fa-hand-holding-heart"></i>
+
+                <h3>No Donations Yet</h3>
+
+                <p>
+                    Customer donation requests and your restaurant donation records
+                    will appear here.
+                </p>
+
+                <a href="/admin/donations/new" class="btn btn-success">
+                    <i class="fa-solid fa-plus me-2"></i>
+                    Create Restaurant Donation
+                </a>
+
+            </div>
+
+        <% } %>
+
+
+        <!-- Back Button -->
+        <div class="mt-4">
+            <a href="/admin/profile" class="back-btn">
+                <i class="fa-solid fa-arrow-left me-2"></i>
+                Back to Profile
+            </a>
+        </div>
+
+    </div>
+</div>

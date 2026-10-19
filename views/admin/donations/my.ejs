@@ -1,0 +1,364 @@
+<% layout("/layouts/boilerplateA") %>
+
+<style>
+    .donations-page {
+        padding: 25px 0;
+    }
+
+    .donations-header {
+        background: linear-gradient(135deg, #198754, #116b43);
+        color: white;
+        padding: 28px;
+        border-radius: 16px;
+        margin-bottom: 25px;
+    }
+
+    .donations-header h2 {
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .donations-header p {
+        margin-bottom: 0;
+        opacity: 0.9;
+    }
+
+    .donation-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        margin-bottom: 22px;
+        background: #fff;
+    }
+
+    .donation-card-header {
+        padding: 18px 22px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .donation-card-header h5 {
+        margin: 0;
+        font-weight: 700;
+        color: #212529;
+    }
+
+    .donation-card-body {
+        padding: 22px;
+    }
+
+    .donation-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .donation-item:last-child {
+        border-bottom: none;
+    }
+
+    .item-name {
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    .item-quantity {
+        background: #e9f7ef;
+        color: #198754;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 7px 13px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .status-accepted {
+        background: #cfe2ff;
+        color: #084298;
+    }
+
+    .status-pickup {
+        background: #e0cffc;
+        color: #59359a;
+    }
+
+    .status-completed {
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .status-cancelled {
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    .status-default {
+        background: #e9ecef;
+        color: #495057;
+    }
+
+    .donation-info {
+        margin-top: 18px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+
+    .donation-info p {
+        margin-bottom: 8px;
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .donation-message {
+        background: #f8f9fa;
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        color: #495057;
+    }
+
+    .empty-donations {
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .empty-donations i {
+        font-size: 55px;
+        color: #198754;
+        margin-bottom: 18px;
+    }
+
+    .empty-donations h4 {
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .empty-donations p {
+        color: #6c757d;
+    }
+
+    @media (max-width: 576px) {
+        .donation-card-header,
+        .donation-card-body {
+            padding: 16px;
+        }
+
+        .donations-header {
+            padding: 22px;
+        }
+    }
+</style>
+
+<div class="container donations-page">
+
+    <!-- Page Header -->
+    <div class="donations-header">
+        <h2>
+            <i class="fa-solid fa-clock-rotate-left me-2"></i>
+            My Donations
+        </h2>
+
+        <p>
+            Track your restaurant's food donations and their current status.
+        </p>
+    </div>
+
+    <!-- Donation Count -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">Donation History</h4>
+
+        <span class="badge bg-success rounded-pill px-3 py-2">
+            <%= donations.length %> Donations
+        </span>
+    </div>
+
+    <% if (donations.length === 0) { %>
+
+        <!-- Empty State -->
+        <div class="empty-donations">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+
+            <h4>No Donations Yet</h4>
+
+            <p>
+                You haven't donated any food yet.
+                Start donating surplus food to help people in need.
+            </p>
+
+            <a href="/admin/donations/new" class="btn btn-success mt-2">
+                <i class="fa-solid fa-plus me-2"></i>
+                Donate Food
+            </a>
+        </div>
+
+    <% } else { %>
+
+        <% donations.forEach((donation) => { %>
+
+            <div class="donation-card">
+
+                <!-- Card Header -->
+                <div class="donation-card-header">
+
+                    <h5>
+                        <i class="fa-solid fa-box-heart me-2 text-success"></i>
+                        Donation #<%= donation._id.toString().slice(-6).toUpperCase() %>
+                    </h5>
+
+                    <%
+                        let statusClass = "status-default";
+
+                        if (donation.status === "Pending") {
+                            statusClass = "status-pending";
+                        } else if (donation.status === "Accepted") {
+                            statusClass = "status-accepted";
+                        } else if (donation.status === "Pickup Confirmed") {
+                            statusClass = "status-pickup";
+                        } else if (donation.status === "Completed") {
+                            statusClass = "status-completed";
+                        } else if (donation.status === "Cancelled") {
+                            statusClass = "status-cancelled";
+                        }
+                    %>
+
+                    <span class="status-badge <%= statusClass %>">
+                        <%= donation.status %>
+                    </span>
+
+                </div>
+
+                <!-- Card Body -->
+                <div class="donation-card-body">
+
+                    <h6 class="fw-bold mb-3">
+                        <i class="fa-solid fa-utensils me-2 text-success"></i>
+                        Donated Food Items
+                    </h6>
+
+                    <% donation.items.forEach((item) => { %>
+
+                        <div class="donation-item">
+
+                            <div>
+                                <div class="item-name">
+                                    <%= item.name %>
+                                </div>
+                            </div>
+
+                            <span class="item-quantity">
+                                Qty: <%= item.quantity %>
+                            </span>
+
+                        </div>
+
+                    <% }) %>
+
+                    <!-- Donation Information -->
+                    <div class="donation-info">
+
+                        <p>
+                            <i class="fa-regular fa-calendar me-2"></i>
+
+                            <strong>Donation Date:</strong>
+
+                            <%= new Date(donation.createdAt).toLocaleDateString("en-IN", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric"
+                            }) %>
+                        </p>
+
+                        <p>
+                            <i class="fa-solid fa-truck me-2"></i>
+
+                            <strong>Pickup Status:</strong>
+
+                            <% if (donation.status === "Pending") { %>
+                                Waiting for an NGO to accept the donation.
+
+                            <% } else if (donation.status === "Accepted") { %>
+                                An NGO has accepted the donation.
+
+                            <% } else if (donation.status === "Pickup Confirmed") { %>
+                                Pickup has been confirmed.
+
+                            <% } else if (donation.status === "Completed") { %>
+                                Donation completed successfully.
+
+                            <% } else if (donation.status === "Cancelled") { %>
+                                This donation has been cancelled.
+
+                            <% } else { %>
+                                Status: <%= donation.status %>
+                            <% } %>
+                        </p>
+
+                        <% if (donation.approvalStatus === "NotRequired") { %>
+
+                            <p>
+                                <i class="fa-solid fa-circle-check me-2 text-success"></i>
+                                <strong>Approval:</strong>
+                                Not required
+                            </p>
+
+                        <% } %>
+
+                        <% if (donation.message) { %>
+
+                            <div class="donation-message">
+                                <strong>
+                                    <i class="fa-regular fa-message me-2"></i>
+                                    Message:
+                                </strong>
+
+                                <p class="mb-0 mt-1">
+                                    <%= donation.message %>
+                                </p>
+                            </div>
+
+                        <% } %>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <% }) %>
+
+    <% } %>
+
+    <!-- Back Button -->
+    <div class="mt-4 mb-4">
+        <a href="/admin/dashboard" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-arrow-left me-2"></i>
+            Back to Dashboard
+        </a>
+    </div>
+
+</div>

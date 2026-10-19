@@ -1,0 +1,64 @@
+<% layout("/layouts/boilerplateNGO") %>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+                        <i class="fa-solid fa-hand-holding-heart fa-3x text-success mb-3"></i>
+                        <h2 class="fw-bold">NGO Login</h2>
+                        <p class="text-muted">
+                            Login to manage food donations.
+                        </p>
+                    </div>
+
+                    <form action="/ngo/login" method="POST">
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                Email Address
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="Enter registered email"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter password"
+                                required
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 py-2">
+                            Login
+                        </button>
+
+                    </form>
+
+                    <p class="text-center mt-4 mb-0">
+                        New NGO?
+                        <a href="/ngo/register" class="text-success fw-semibold">
+                            Register here
+                        </a>
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

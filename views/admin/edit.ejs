@@ -1,0 +1,307 @@
+<% layout("/layouts/boilerplateA") %>
+
+<style>
+    .edit-page {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .edit-card {
+        background: #fff;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .food-preview {
+        position: relative;
+        width: 100%;
+        height: 330px;
+        overflow: hidden;
+    }
+
+    .food-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .food-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.65),
+            transparent 55%
+        );
+    }
+
+    .food-title {
+        position: absolute;
+        bottom: 25px;
+        left: 30px;
+        color: white;
+    }
+
+    .food-title h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .food-title p {
+        margin: 5px 0 0;
+        font-size: 15px;
+    }
+
+    .edit-content {
+        padding: 35px;
+    }
+
+    .edit-content h2 {
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+
+    .edit-content .subtitle {
+        color: #777;
+        margin-bottom: 30px;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    .form-control,
+    .form-select {
+        padding: 12px 14px;
+        border-radius: 8px;
+    }
+
+    .available-box {
+        background: #f7f7f7;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .update-btn {
+        background: #ff5a1f;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    .update-btn:hover {
+        background: #e94d16;
+        color: white;
+    }
+</style>
+
+<div class="edit-page">
+
+    <div class="edit-card">
+
+        <!-- FOOD IMAGE -->
+        <div class="food-preview">
+
+            <img
+                src="<%= item.image && item.image.url
+                    ? item.image.url
+                    : '/images/default-food.jpg' %>"
+                alt="<%= item.name %>"
+            >
+
+            <div class="food-overlay"></div>
+
+            <div class="food-title">
+                <h1><%= item.name %></h1>
+                <p><%= item.category %> · ₹<%= item.price %></p>
+            </div>
+
+        </div>
+
+        <!-- FORM -->
+        <div class="edit-content">
+
+            <h2>Edit Food Item</h2>
+
+            <p class="subtitle">
+                Update the details of your food item.
+            </p>
+
+            <form
+                action="/admin/items/<%= item._id %>?_method=PUT"
+                method="POST"
+            >
+
+                <!-- NAME -->
+                <div class="mb-4">
+                    <label class="form-label">
+                        Food Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        value="<%= item.name %>"
+                        required
+                    >
+                </div>
+
+                <!-- CATEGORY -->
+                <div class="mb-4">
+                    <label class="form-label">
+                        Category
+                    </label>
+
+                    <select
+                        name="category"
+                        class="form-select"
+                        required
+                    >
+
+                        <% const categories = [
+                            "Pizza",
+                            "Burger",
+                            "Biryani",
+                            "North Indian",
+                            "South Indian",
+                            "Chinese",
+                            "Momos",
+                            "Fast Food",
+                            "Rolls",
+                            "Sandwich",
+                            "Pasta",
+                            "Snacks",
+                            "Desserts",
+                            "Ice Cream",
+                            "Cakes",
+                            "Beverages",
+                            "Other"
+                        ]; %>
+
+                        <% categories.forEach(category => { %>
+
+                            <option
+                                value="<%= category %>"
+                                <%= item.category === category ? "selected" : "" %>
+                            >
+                                <%= category %>
+                            </option>
+
+                        <% }) %>
+
+                    </select>
+                </div>
+
+                <!-- PRICE -->
+                <div class="mb-4">
+                    <label class="form-label">
+                        Price
+                    </label>
+
+                    <div class="input-group">
+                        <span class="input-group-text">₹</span>
+
+                        <input
+                            type="number"
+                            name="price"
+                            class="form-control"
+                            value="<%= item.price %>"
+                            min="0"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="mb-4">
+                    <label class="form-label">
+                        Description
+                    </label>
+
+                    <textarea
+                        name="description"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Describe your food item..."
+                    ><%= item.description || "" %></textarea>
+                </div>
+
+                <!-- IMAGE URL -->
+                <div class="mb-4">
+                    <label class="form-label">
+                        Food Image URL
+                    </label>
+
+                    <input
+                        type="url"
+                        name="image[url]"
+                        class="form-control"
+                        value="<%= item.image && item.image.url ? item.image.url : "" %>"
+                        placeholder="https://example.com/food.jpg"
+                    >
+                </div>
+
+                <!-- AVAILABILITY -->
+                <div class="available-box mb-4">
+
+                    <div class="form-check form-switch">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="available"
+                            name="isAvailable"
+                            value="true"
+                            <%= item.isAvailable ? "checked" : "" %>
+                        >
+
+                        <label
+                            class="form-check-label"
+                            for="available"
+                        >
+                            <strong>Food Available</strong>
+
+                            <div class="text-muted small">
+                                Customers can order this item
+                            </div>
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="d-flex gap-2">
+
+                    <button
+                        type="submit"
+                        class="update-btn"
+                    >
+                        Update Food Item
+                    </button>
+
+                    <a
+                        href="/admin/items"
+                        class="btn btn-outline-secondary px-4"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs") %>

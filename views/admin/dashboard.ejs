@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | SmartDine</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f8f9fa;
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+
+        .admin-main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            padding: 100px 30px 40px;
+        }
+
+        .dashboard-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-subtitle {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 4px 18px rgba(0,0,0,.05);
+        }
+
+        .stat-card i {
+            font-size: 20px;
+            color: #ff4b16;
+        }
+
+        .stat-title {
+            color: #777;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 800;
+            margin-top: 4px;
+        }
+
+        .section-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,.05);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .table th {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .table td {
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .confirmed {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .preparing {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .departed {
+            background: #e2d9f3;
+            color: #59359a;
+        }
+
+        .completed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .cancelled {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+    </style>
+</head>
+
+<body>
+
+   <%- include("../includes/flash.ejs")%>
+        <%- include("../includes/navbar.ejs")%>
+
+    <main class="admin-main">
+
+        <div class="dashboard">
+
+            <h1 class="dashboard-title">
+                Dashboard
+            </h1>
+
+            <p class="dashboard-subtitle">
+                Here's what's happening with your restaurant.
+            </p>
+
+            <div class="row g-4 mb-4">
+
+                <div class="col-md-6 col-xl-3">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-receipt"></i>
+
+                        <div class="stat-title">
+                            Total Orders
+                        </div>
+
+                        <div class="stat-value">
+                            <%= totalOrders %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-clock"></i>
+
+                        <div class="stat-title">
+                            Pending Orders
+                        </div>
+
+                        <div class="stat-value">
+                            <%= pendingOrders %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <div class="stat-title">
+                            Completed Orders
+                        </div>
+
+                        <div class="stat-value">
+                            <%= completedOrders %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                        <div class="stat-title">
+                            Total Sales
+                        </div>
+
+                        <div class="stat-value">
+                            ₹<%= totalSales %>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="section-card">
+
+                <div class="section-header">
+                    Recent Orders
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table mb-0">
+
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <% if (recentOrders.length > 0) { %>
+
+                                <% recentOrders.forEach(order => { %>
+
+                                    <tr>
+
+                                        <td>
+                                            #<%= order._id.toString().slice(-6) %>
+                                        </td>
+
+                                        <td>
+                                            <%= order.customer
+                                                ? order.customer.name
+                                                : "Unknown Customer" %>
+                                        </td>
+
+                                        <td>
+                                            ₹<%= order.totalAmount %>
+                                        </td>
+
+                                        <td>
+
+                                            <span class="status <%= order.status.toLowerCase() %>">
+                                                <%= order.status %>
+                                            </span>
+
+                                        </td>
+
+                                    </tr>
+
+                                <% }) %>
+
+                            <% } else { %>
+
+                                <tr>
+                                    <td colspan="4" class="text-center py-4 text-muted">
+                                        No orders yet.
+                                    </td>
+                                </tr>
+
+                            <% } %>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <%- include("footer.ejs") %>
+
+</body>
+</html>

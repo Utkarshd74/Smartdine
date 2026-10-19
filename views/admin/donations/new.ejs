@@ -1,0 +1,326 @@
+<% layout("/layouts/boilerplateA") %>
+
+<style>
+    .donation-page {
+        min-height: 80vh;
+        padding: 35px 0 60px;
+        background: #f8faf9;
+    }
+
+    .donation-header {
+        background: linear-gradient(135deg, #14532d, #16a34a);
+        color: white;
+        padding: 30px;
+        border-radius: 18px;
+        margin-bottom: 30px;
+    }
+
+    .donation-header h1 {
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .donation-header p {
+        margin-bottom: 0;
+        opacity: 0.9;
+    }
+
+    .donation-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 15px;
+        overflow: hidden;
+        height: 100%;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .donation-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07);
+    }
+
+    .donation-image {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+        background: #f3f4f6;
+    }
+
+    .donation-card-body {
+        padding: 18px;
+    }
+
+    .donation-card h5 {
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .food-category {
+        display: inline-block;
+        background: #dcfce7;
+        color: #166534;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .quantity-input {
+        border-radius: 9px;
+        padding: 10px;
+    }
+
+    .message-box {
+        border-radius: 12px;
+        padding: 14px;
+    }
+
+    .donation-submit {
+        background: #15803d;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 25px;
+        font-weight: 600;
+    }
+
+    .donation-submit:hover {
+        background: #166534;
+        color: white;
+    }
+
+    .empty-state {
+        background: white;
+        border: 1px dashed #d1d5db;
+        border-radius: 15px;
+        padding: 50px 20px;
+        text-align: center;
+    }
+</style>
+
+<div class="donation-page">
+    <div class="container">
+
+        <!-- Header -->
+        <div class="donation-header">
+            <h1>
+                <i class="fa-solid fa-hand-holding-heart me-2"></i>
+                Donate Surplus Food
+            </h1>
+
+            <p>
+                Share your surplus food with people in need.
+                Every contribution makes a difference.
+            </p>
+        </div>
+
+        <!-- Flash messages -->
+        <% if (typeof success !== "undefined" && success.length) { %>
+            <% success.forEach(message => { %>
+                <div class="alert alert-success alert-dismissible fade show">
+                    <%= message %>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="alert"></button>
+                </div>
+            <% }) %>
+        <% } %>
+
+        <% if (typeof error !== "undefined" && error.length) { %>
+            <% error.forEach(message => { %>
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <%= message %>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="alert"></button>
+                </div>
+            <% }) %>
+        <% } %>
+
+        <% if (items && items.length > 0) { %>
+
+            <form action="/admin/donations" method="POST" id="donationForm">
+
+                <div class="d-flex justify-content-between align-items-center
+                    flex-wrap gap-2 mb-4">
+
+                    <div>
+                        <h3 class="fw-bold mb-1">Select Food Items</h3>
+                        <p class="text-muted mb-0">
+                            Enter the quantity you want to donate for each item.
+                        </p>
+                    </div>
+
+                    <span class="badge text-bg-success fs-6">
+                        <%= items.length %> Available Items
+                    </span>
+                </div>
+
+                <div class="row g-4">
+
+                    <% items.forEach(item => { %>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+
+                            <div class="donation-card">
+
+                                <img
+                                    src="<%= item.image && item.image.url
+                                        ? item.image.url
+                                        : '/images/default-food.png' %>"
+                                    alt="<%= item.name %>"
+                                    class="donation-image"
+                                    onerror="this.onerror=null; this.src='/images/default-food.png';"
+                                >
+
+                                <div class="donation-card-body">
+
+                                    <span class="food-category">
+                                        <%= item.category %>
+                                    </span>
+
+                                    <h5><%= item.name %></h5>
+
+                                    <p class="text-muted small mb-3">
+                                        <%= item.description ||
+                                            "Fresh food available for donation." %>
+                                    </p>
+
+                                    <p class="fw-semibold mb-3">
+                                        ₹<%= Number(item.price).toFixed(2) %>
+                                        <span class="text-muted small">
+                                            / item
+                                        </span>
+                                    </p>
+
+                                    <label
+                                        for="quantity-<%= item._id %>"
+                                        class="form-label fw-semibold">
+
+                                        Donation Quantity
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        class="form-control quantity-input donation-quantity"
+                                        id="quantity-<%= item._id %>"
+                                        name="quantities[<%= item._id %>]"
+                                        min="0"
+                                        step="1"
+                                        value="0"
+                                        placeholder="Enter quantity"
+                                    >
+
+                                    <small class="text-muted">
+                                        Enter 0 if you don't want to donate this item.
+                                    </small>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+                <!-- Optional message -->
+                <div class="card border-0 shadow-sm mt-5">
+                    <div class="card-body p-4">
+
+                        <h4 class="fw-bold mb-2">
+                            <i class="fa-regular fa-message me-2"></i>
+                            Message for NGO
+                            <span class="text-muted fs-6">(Optional)</span>
+                        </h4>
+
+                        <p class="text-muted">
+                            Add any useful information about your food donation.
+                        </p>
+
+                        <textarea
+                            name="message"
+                            class="form-control message-box"
+                            rows="4"
+                            maxlength="500"
+                            placeholder="Example: Please collect the food before 6 PM."
+                        ></textarea>
+
+                        <div class="d-flex justify-content-between
+                            align-items-center flex-wrap gap-3 mt-4">
+
+                            <a href="/admin/profile"
+                                class="btn btn-outline-secondary">
+                                <i class="fa-solid fa-arrow-left me-1"></i>
+                                Back to Profile
+                            </a>
+
+                            <button type="submit" class="btn donation-submit">
+                                <i class="fa-solid fa-heart me-2"></i>
+                                Submit Donation
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+
+        <% } else { %>
+
+            <div class="empty-state">
+
+                <i class="fa-solid fa-bowl-food fa-3x text-success mb-3"></i>
+
+                <h3 class="fw-bold">No Food Items Available</h3>
+
+                <p class="text-muted">
+                    Add an available food item before creating a donation.
+                </p>
+
+                <a href="/admin/items/new" class="btn donation-submit">
+                    <i class="fa-solid fa-plus me-2"></i>
+                    Add Food Item
+                </a>
+
+            </div>
+
+        <% } %>
+
+    </div>
+</div>
+
+<script>
+    const donationForm = document.getElementById("donationForm");
+
+    if (donationForm) {
+        donationForm.addEventListener("submit", function (event) {
+            const quantities = document.querySelectorAll(".donation-quantity");
+
+            let hasSelectedItem = false;
+
+            for (const input of quantities) {
+                const quantity = Number(input.value);
+
+                if (
+                    input.value.trim() !== "" &&
+                    (!Number.isSafeInteger(quantity) || quantity < 0)
+                ) {
+                    event.preventDefault();
+                    alert("Please enter a valid whole-number quantity.");
+                    input.focus();
+                    return;
+                }
+
+                if (quantity > 0) {
+                    hasSelectedItem = true;
+                }
+            }
+
+            if (!hasSelectedItem) {
+                event.preventDefault();
+                alert("Please enter a quantity for at least one food item.");
+            }
+        });
+    }
+</script>
+

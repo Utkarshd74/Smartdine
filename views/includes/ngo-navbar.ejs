@@ -1,0 +1,107 @@
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold fs-4" href="/ngo/dashboard">
+            <i class="fa-solid fa-utensils text-success me-2"></i>
+            Smart<span class="text-success">Dine</span>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#ngoNavbar"
+            aria-controls="ngoNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="ngoNavbar">
+
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+
+                <!-- Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/ngo/dashboard">
+                        <i class="fa-solid fa-house me-1"></i>
+                        Dashboard
+                    </a>
+                </li>
+
+                <!-- Available Donations -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/ngo/donations">
+                        <i class="fa-solid fa-hand-holding-heart me-1"></i>
+                        Available Donations
+                    </a>
+                </li>
+
+                <!-- My Donations -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/ngo/my-donations">
+                        <i class="fa-solid fa-box-open me-1"></i>
+                        My Donations
+                    </a>
+                </li>
+
+                <% if (
+                    typeof isLoggedIn !== "undefined" &&
+                    isLoggedIn &&
+                    currentUser &&
+                    currentUser.constructor.modelName === "NGO"
+                ) { %>
+
+                    <!-- NGO Profile -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ngo/profile">
+                            <i class="fa-solid fa-user me-1"></i>
+                            <%= currentUser.name %>
+                        </a>
+                    </li>
+
+                    <!-- Logout -->
+                    <li class="nav-item ms-lg-2">
+                        <form action="/ngo/logout" method="POST" class="d-inline">
+                            <button
+                                type="submit"
+                                class="btn btn-outline-danger rounded-pill px-4"
+                            >
+                                <i class="fa-solid fa-right-from-bracket me-1"></i>
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+
+                <% } else { %>
+
+                    <!-- Login -->
+                    <li class="nav-item ms-lg-2">
+                        <a
+                            href="/ngo/login"
+                            class="btn btn-outline-success rounded-pill px-4"
+                        >
+                            Login
+                        </a>
+                    </li>
+
+                    <!-- Register -->
+                    <li class="nav-item">
+                        <a
+                            href="/ngo/register"
+                            class="btn btn-success rounded-pill px-4"
+                        >
+                            Register
+                        </a>
+                    </li>
+
+                <% } %>
+
+            </ul>
+        </div>
+    </div>
+</nav>

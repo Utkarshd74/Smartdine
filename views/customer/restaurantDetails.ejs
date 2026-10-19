@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= restaurant.restaurantName %> | SmartDine</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #fff;
+            color: #222;
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+
+        .restaurant-page {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 30px 80px;
+        }
+
+        /* RESTAURANT */
+
+        .restaurant-header {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            padding-bottom: 35px;
+        }
+
+        .restaurant-image,
+        .restaurant-placeholder {
+            width: 280px;
+            height: 210px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .restaurant-image {
+            object-fit: cover;
+        }
+
+        .restaurant-placeholder {
+            background: #fff1eb;
+            color: #ff4b16;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        .restaurant-info {
+            flex: 1;
+        }
+
+        .restaurant-name {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .restaurant-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .rating {
+            color: #f5a400;
+            font-weight: 700;
+        }
+
+        .rating span {
+            color: #777;
+            font-weight: 500;
+        }
+
+        .restaurant-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .restaurant-address {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .restaurant-address i {
+            color: #ff4b16;
+            margin-right: 6px;
+        }
+
+        /* RECOMMENDED */
+
+        .recommended-section {
+            border-bottom: 1px solid #eeeeee;
+            margin-bottom: 30px;
+        }
+
+        .recommended {
+            display: inline-block;
+            padding: 14px 0;
+            color: #ff4b16;
+            font-size: 15px;
+            font-weight: 700;
+            border-bottom: 3px solid #ff4b16;
+        }
+
+        /* FOOD */
+
+        .food-heading {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .food-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .food-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 5px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .food-image,
+        .food-placeholder {
+            width: 145px;
+            height: 105px;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .food-image {
+            object-fit: cover;
+        }
+
+        .food-placeholder {
+            background: #fff1eb;
+            color: #ff4b16;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+        }
+
+        .food-info {
+            flex: 1;
+        }
+
+        .food-name {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .food-description {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .food-price {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .add-btn {
+            min-width: 90px;
+            height: 40px;
+            padding: 0 15px;
+            border: 1px solid #ff4b16;
+            border-radius: 7px;
+            background: #fff;
+            color: #ff4b16;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: #ff4b16;
+            color: #fff;
+        }
+
+        /* EMPTY */
+
+        .empty-food {
+            text-align: center;
+            padding: 70px 20px;
+            color: #777;
+        }
+
+        .empty-food i {
+            color: #ff4b16;
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        /* SUCCESS POPUP */
+
+        .success-popup {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 9999;
+            width: 310px;
+            padding: 16px;
+            background: #fff;
+            border-left: 4px solid #28a745;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            animation: popupIn 0.3s ease;
+        }
+
+        .success-message {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .success-message i {
+            color: #28a745;
+            margin-right: 8px;
+        }
+
+        .go-cart-btn {
+            display: block;
+            width: 100%;
+            padding: 9px 12px;
+            background: #ff4b16;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .go-cart-btn:hover {
+            background: #e94310;
+            color: #fff;
+        }
+
+        @keyframes popupIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+
+            .restaurant-page {
+                padding: 25px 18px 60px;
+            }
+
+            .restaurant-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .restaurant-image,
+            .restaurant-placeholder {
+                width: 100%;
+                height: 220px;
+            }
+
+            .food-item {
+                align-items: flex-start;
+            }
+
+            .food-image,
+            .food-placeholder {
+                width: 110px;
+                height: 90px;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .food-item {
+                flex-wrap: wrap;
+            }
+
+            .food-image,
+            .food-placeholder {
+                width: 100%;
+                height: 180px;
+            }
+
+            .food-info {
+                width: 100%;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .success-popup {
+                left: 15px;
+                right: 15px;
+                top: 15px;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <%- include("../includes/flash.ejs") %>
+    <%- include("../includes/customerNavbar.ejs") %>
+
+<% if (typeof success !== "undefined" && success.length) { %>
+
+    <div class="success-popup">
+
+        <div class="success-message">
+            <i class="fa-solid fa-circle-check"></i>
+            <%= success %>
+        </div>
+
+        <a href="/customer/cart" class="go-cart-btn">
+            Go to Cart
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+    </div>
+
+    <script>
+        setTimeout(() => {
+            const popup = document.querySelector(".success-popup");
+
+            if (popup) {
+                popup.style.opacity = "0";
+                popup.style.transform = "translateX(30px)";
+
+                setTimeout(() => {
+                    popup.remove();
+                }, 300);
+            }
+        }, 5000);
+    </script>
+
+<% } %>
+
+<div class="restaurant-page">
+
+    <!-- RESTAURANT DETAILS -->
+
+    <div class="restaurant-header">
+
+        <% if (restaurant.image && restaurant.image.url) { %>
+
+            <img
+                src="<%= restaurant.image.url %>"
+                alt="<%= restaurant.restaurantName %>"
+                class="restaurant-image"
+            >
+
+        <% } else { %>
+
+            <div class="restaurant-placeholder">
+                <i class="fa-solid fa-store"></i>
+            </div>
+
+        <% } %>
+
+        <div class="restaurant-info">
+
+            <h1 class="restaurant-name">
+                <%= restaurant.restaurantName %>
+            </h1>
+
+            <div class="restaurant-meta">
+
+                <div class="rating">
+                    <i class="fa-solid fa-star"></i>
+                    4.5
+                    <span>(300+ ratings)</span>
+                </div>
+
+                <div>
+                    <i class="fa-regular fa-clock"></i>
+                    25-30 min
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-wallet"></i>
+                    Min. Order ₹199
+                </div>
+
+            </div>
+
+            <div class="restaurant-description">
+                <%= restaurant.description || "Delicious food and great service." %>
+            </div>
+
+            <div class="restaurant-address">
+                <i class="fa-solid fa-location-dot"></i>
+                <%= restaurant.address %>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RECOMMENDED -->
+
+    <div class="recommended-section">
+
+        <span class="recommended">
+            Recommended
+        </span>
+
+    </div>
+
+    <!-- FOOD ITEMS -->
+
+    <h2 class="food-heading">
+        Recommended
+    </h2>
+
+    <% if (foodItems.length > 0) { %>
+
+        <div class="food-list">
+
+            <% foodItems.forEach(item => { %>
+
+                <div class="food-item">
+
+                    <% if (item.image && item.image.url) { %>
+
+                        <img
+                            src="<%= item.image.url %>"
+                            alt="<%= item.name %>"
+                            class="food-image"
+                        >
+
+                    <% } else { %>
+
+                        <div class="food-placeholder">
+                            <i class="fa-solid fa-bowl-food"></i>
+                        </div>
+
+                    <% } %>
+
+                    <div class="food-info">
+
+                        <div class="food-name">
+                            <%= item.name %>
+                        </div>
+
+                        <div class="food-description">
+                            <%= item.description || "Delicious food prepared fresh for you." %>
+                        </div>
+
+                        <div class="food-price">
+                            ₹<%= item.price %>
+                        </div>
+
+                    </div>
+
+                    <form
+                        action="/customer/cart/add/<%= item._id %>"
+                        method="POST"
+                    >
+
+                        <button
+                            type="submit"
+                            class="add-btn"
+                        >
+                            ADD
+                            <i class="fa-solid fa-plus ms-1"></i>
+                        </button>
+
+                    </form>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    <% } else { %>
+
+        <div class="empty-food">
+
+            <i class="fa-solid fa-bowl-food"></i>
+
+            <h4>
+                No Food Items Available
+            </h4>
+
+            <p>
+                This restaurant has not added any food items yet.
+            </p>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+<%- include("../includes/customerFooter.ejs") %>
+
+</body>
+</html>
