@@ -133,7 +133,16 @@ app.use("/", customerRoutes);
 app.use("/", donationRoutes);
 app.use("/", ngoRoutes);
 
-// mongoose.connect("mongodb://127.0.0.1:27017/smartdine")
+// Homepage: redirect to role selection page
+app.get("/", (req, res) => {
+    res.redirect("/role");
+});
+
+// Role selection page
+app.get("/role", (req, res) => {
+    res.render("auth/role");
+});
+
 
 
 
@@ -159,6 +168,8 @@ main()
 
 
 
-app.listen(8080, () => {
-    console.log("SmartDine server running on port 8080");
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`SmartDine server running on port ${PORT}`);
 });
