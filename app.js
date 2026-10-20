@@ -15,7 +15,6 @@ const ejsMate = require("ejs-mate");
 
 const customerRoutes = require("./routes/customer");
 const adminRoutes = require("./routes/admin");
-const authRoutes = require("./routes/authentication");
 const donationRoutes = require("./routes/donation");
 const ngoRoutes = require("./routes/ngo");
 
@@ -128,7 +127,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/", adminRoutes);
-app.use("/", authRoutes);
 app.use("/", customerRoutes);
 app.use("/", donationRoutes);
 app.use("/", ngoRoutes);

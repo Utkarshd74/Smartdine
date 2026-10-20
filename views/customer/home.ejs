@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,12 +23,18 @@
     >
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             background: #ffffff;
             font-family: "Plus Jakarta Sans", sans-serif;
             color: #1d1d1d;
         }
+
+        /* HERO SECTION */
 
         .hero {
             margin: 25px auto 0;
@@ -75,6 +82,7 @@
 
         .search-box input {
             flex: 1;
+            min-width: 0;
             border: none;
             outline: none;
             padding: 13px 15px;
@@ -88,6 +96,7 @@
             padding: 0 28px;
             border-radius: 9px;
             font-weight: 600;
+            cursor: pointer;
         }
 
         .hero-image {
@@ -98,6 +107,8 @@
             justify-content: center;
             font-size: 190px;
         }
+
+        /* FEATURES */
 
         .features {
             max-width: 1200px;
@@ -140,6 +151,8 @@
             font-size: 13px;
         }
 
+        /* COMMON SECTION */
+
         .section {
             max-width: 1200px;
             margin: 55px auto 0;
@@ -165,46 +178,110 @@
             font-size: 14px;
         }
 
+        .view-all:hover {
+            color: #d93608;
+        }
+
+        /* TOP CATEGORIES SLIDER */
+
+        .category-slider-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
         .category-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 15px;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 18px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+            scroll-snap-type: x proximity;
+            scrollbar-width: none;
+            padding: 10px 4px 18px;
+        }
+
+        .category-grid::-webkit-scrollbar {
+            display: none;
         }
 
         .category-card {
-            border: 1px solid #eeeeee;
+            flex: 0 0 130px;
+            min-width: 0;
+            border: 1px solid #f0f0f0;
             border-radius: 14px;
-            padding: 20px 10px;
+            padding: 14px 10px;
             text-align: center;
-            background: white;
-            transition: 0.2s;
+            background: #fff;
+            scroll-snap-align: start;
+            transition: transform 0.2s ease,
+                        border-color 0.2s ease,
+                        box-shadow 0.2s ease;
         }
 
         .category-card:hover {
             transform: translateY(-4px);
             border-color: #ff4b16;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
         }
 
-        .category-icon {
-            width: 65px;
-            height: 65px;
-            margin: auto;
+        .category-image {
+            display: block;
+            width: 94px;
+            height: 94px;
+            margin: 0 auto;
             border-radius: 50%;
+            object-fit: cover;
             background: #fff3ed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ff4b16;
-            font-size: 26px;
         }
 
         .category-card h6 {
             margin: 12px 0 0;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
+            line-height: 1.35;
             text-transform: capitalize;
+            overflow-wrap: anywhere;
         }
+
+        /* SLIDER ARROWS */
+
+        .category-arrow {
+            position: absolute;
+            top: 38px;
+            z-index: 2;
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #eee;
+            border-radius: 50%;
+            background: #fff;
+            color: #ff4b16;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .category-arrow:hover {
+            background: #ff4b16;
+            color: #fff;
+        }
+
+        .category-arrow:focus-visible {
+            outline: 3px solid rgba(255, 75, 22, 0.3);
+            outline-offset: 2px;
+        }
+
+        .category-arrow-left {
+            left: -16px;
+        }
+
+        .category-arrow-right {
+            right: -16px;
+        }
+
+        /* TOP RESTAURANTS */
 
         .restaurant-grid {
             display: grid;
@@ -280,6 +357,13 @@
             font-weight: 600;
         }
 
+        .restaurant-btn:hover {
+            background: #e83f0c;
+            color: white;
+        }
+
+        /* TABLET */
+
         @media (max-width: 992px) {
             .hero-content {
                 width: 60%;
@@ -291,31 +375,43 @@
                 font-size: 120px;
             }
 
-            .category-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
             .restaurant-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
+        /* MOBILE */
+
         @media (max-width: 768px) {
             .hero {
                 margin: 15px;
+                min-height: auto;
             }
 
             .hero-content {
                 width: 100%;
-                padding: 35px;
+                padding: 30px 22px;
             }
 
             .hero-content h1 {
                 font-size: 36px;
             }
 
+            .hero-content p {
+                font-size: 14px;
+            }
+
             .hero-image {
                 display: none;
+            }
+
+            .search-box input {
+                font-size: 13px;
+                padding: 12px 8px;
+            }
+
+            .search-btn {
+                padding: 0 14px;
             }
 
             .features {
@@ -324,24 +420,57 @@
             }
 
             .section {
-                margin-left: 15px;
-                margin-right: 15px;
+                margin: 45px 15px 0;
+            }
+
+            .section-heading h2 {
+                font-size: 21px;
             }
 
             .category-grid {
-                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding-left: 2px;
+                padding-right: 2px;
+            }
+
+            .category-card {
+                flex-basis: 105px;
+                padding: 12px 7px;
+            }
+
+            .category-image {
+                width: 78px;
+                height: 78px;
+            }
+
+            .category-arrow {
+                display: none;
             }
 
             .restaurant-grid {
                 grid-template-columns: 1fr;
             }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            .category-grid {
+                scroll-behavior: auto;
+            }
+
+            .category-card,
+            .category-arrow {
+                transition: none;
+            }
+        }
     </style>
 </head>
 
 <body>
+
     <%- include("../includes/flash.ejs") %>
     <%- include("../includes/customerNavbar.ejs") %>
+
+    <!-- HERO SECTION -->
 
     <section class="hero">
 
@@ -368,9 +497,10 @@
                 <input
                     type="text"
                     placeholder="Search for restaurants or food..."
+                    aria-label="Search restaurants or food"
                 >
 
-                <button class="search-btn">
+                <button type="button" class="search-btn">
                     Search
                 </button>
 
@@ -384,6 +514,7 @@
 
     </section>
 
+    <!-- FEATURES SECTION -->
 
     <section class="features">
 
@@ -394,13 +525,9 @@
             </div>
 
             <h5>Fast Delivery</h5>
-
-            <p>
-                Get your food on time
-            </p>
+            <p>Get your food on time</p>
 
         </div>
-
 
         <div class="feature-card">
 
@@ -409,13 +536,9 @@
             </div>
 
             <h5>Best Quality</h5>
-
-            <p>
-                Fresh and tasty food
-            </p>
+            <p>Fresh and tasty food</p>
 
         </div>
-
 
         <div class="feature-card">
 
@@ -424,23 +547,19 @@
             </div>
 
             <h5>Secure Payment</h5>
-
-            <p>
-                Safe and secure ordering
-            </p>
+            <p>Safe and secure ordering</p>
 
         </div>
 
     </section>
 
+    <!-- TOP CATEGORIES SECTION -->
 
     <section class="section">
 
         <div class="section-heading">
 
-            <h2>
-                Top Categories
-            </h2>
+            <h2>Top Categories</h2>
 
             <a href="#" class="view-all">
                 View All
@@ -448,44 +567,104 @@
 
         </div>
 
+        <div class="category-slider-wrapper">
 
-        <div class="category-grid">
+            <button
+                type="button"
+                class="category-arrow category-arrow-left"
+                id="categoryPrev"
+                aria-label="Previous categories"
+            >
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </button>
 
-            <% categories.forEach(category => { %>
+            <div
+                class="category-grid"
+                id="categorySlider"
+                aria-label="Food categories"
+            >
 
-                <div class="category-card">
+                <%
+                    const categoryImages = {
+                        'pizza': 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300&q=80',
+                        'burger': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80',
+                        'burgers': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80',
+                        'biryani': 'https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=300&q=80',
+                        'chinese': 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=300&q=80',
+                        'dessert': 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=300&q=80',
+                        'desserts': 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=300&q=80',
+                        'sandwich': 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=300&q=80',
+                        'sandwiches': 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=300&q=80',
+                        'pasta': 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=300&q=80',
+                        'noodles': 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=300&q=80',
+                        'momos': 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=300&q=80',
+                        'cake': 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=300&q=80',
+                        'cakes': 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=300&q=80',
+                        'ice cream': 'https://images.unsplash.com/photo-1501446529957-6226bd447c46?auto=format&fit=crop&w=300&q=80',
+                        'icecream': 'https://images.unsplash.com/photo-1501446529957-6226bd447c46?auto=format&fit=crop&w=300&q=80',
+                        'south indian': 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=300&q=80',
+                        'thali': 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=300&q=80',
+                        'snacks': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=300&q=80',
+                        'beverages': 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80',
+                        'drinks': 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80',
+                        'salad': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&q=80',
+                        'salads': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&q=80',
+                        'rolls': 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=300&q=80',
+                        'wraps': 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=300&q=80'
+                    };
+                %>
 
-                    <div class="category-icon">
-                        <i class="fa-solid fa-bowl-food"></i>
+                <% categories.forEach(category => {
+                    const categoryName = String(category);
+                    const categoryKey = categoryName.toLowerCase().trim().replace(/\s+/g, ' ');
+                    const categoryImage = categoryImages[categoryKey]
+                        || 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=300&q=80';
+                %>
+
+                    <div class="category-card">
+
+                        <img
+                            class="category-image"
+                            src="<%= categoryImage %>"
+                            alt="<%= categoryName %>"
+                            loading="lazy"
+                            onerror="this.onerror=null;this.src='https://placehold.co/300x300/fff3ed/ff4b16?text=Food';"
+                        >
+
+                        <h6><%= categoryName %></h6>
+
                     </div>
 
-                    <h6>
-                        <%= category %>
-                    </h6>
+                <% }) %>
 
-                </div>
+            </div>
 
-            <% }) %>
+            <button
+                type="button"
+                class="category-arrow category-arrow-right"
+                id="categoryNext"
+                aria-label="Next categories"
+            >
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </button>
 
         </div>
 
     </section>
 
+    <!-- TOP RESTAURANTS SECTION -->
 
     <section class="section">
 
         <div class="section-heading">
 
-            <h2>
-                Top Restaurants
-            </h2>
+            <h2>Top Restaurants</h2>
 
             <a href="#" class="view-all">
                 View All
             </a>
 
         </div>
-
 
         <div class="restaurant-grid">
 
@@ -499,6 +678,7 @@
                             src="<%= restaurant.image.url %>"
                             class="restaurant-image"
                             alt="<%= restaurant.restaurantName %>"
+                            loading="lazy"
                         >
 
                     <% } else { %>
@@ -509,7 +689,6 @@
 
                     <% } %>
 
-
                     <div class="restaurant-content">
 
                         <h5>
@@ -517,15 +696,15 @@
                         </h5>
 
                         <div class="restaurant-rating">
+
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-regular fa-star"></i>
 
-                            <span class="text-muted">
-                                4.0
-                            </span>
+                            <span class="text-muted">4.0</span>
+
                         </div>
 
                         <div class="restaurant-address">
@@ -550,9 +729,57 @@
 
     </section>
 
-
     <div style="height: 60px;"></div>
+
     <%- include("../includes/customerFooter.ejs") %>
+
+    <!-- CATEGORY SLIDER JAVASCRIPT -->
+
+    <script>
+        (() => {
+            const slider = document.getElementById("categorySlider");
+            const prevButton = document.getElementById("categoryPrev");
+            const nextButton = document.getElementById("categoryNext");
+
+            if (!slider || !prevButton || !nextButton) {
+                return;
+            }
+
+            function updateArrowVisibility() {
+                const maxScroll = slider.scrollWidth - slider.clientWidth;
+
+                prevButton.style.visibility =
+                    slider.scrollLeft <= 2 ? "hidden" : "visible";
+
+                nextButton.style.visibility =
+                    slider.scrollLeft >= maxScroll - 2 ? "hidden" : "visible";
+            }
+
+            function scrollCategories(direction) {
+                slider.scrollBy({
+                    left: direction * Math.max(slider.clientWidth * 0.75, 250),
+                    behavior: "smooth"
+                });
+            }
+
+            prevButton.addEventListener("click", () => {
+                scrollCategories(-1);
+            });
+
+            nextButton.addEventListener("click", () => {
+                scrollCategories(1);
+            });
+
+            slider.addEventListener("scroll", updateArrowVisibility, {
+                passive: true
+            });
+
+            window.addEventListener("resize", updateArrowVisibility);
+
+            updateArrowVisibility();
+        })();
+    </script>
 
 </body>
 </html>
+

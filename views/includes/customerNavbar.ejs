@@ -1,5 +1,6 @@
 <nav class="customer-navbar">
 
+    <!-- BRAND -->
     <a href="/customer/home" class="brand">
         <div class="brand-icon">
             <i class="fa-solid fa-utensils"></i>
@@ -7,44 +8,65 @@
         <span>SmartDine</span>
     </a>
 
-    <div class="nav-links">
-        <a href="/customer/home">
-            <i class="fa-solid fa-house"></i>
-            Home
-        </a>
+    <!-- HAMBURGER BUTTON -->
+    <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="navContent">
 
-        <a href="/customer/restaurants">
-            <i class="fa-solid fa-store"></i>
-            Restaurants
-        </a>
+        <i class="fa-solid fa-bars"></i>
+    </button>
 
-        <a href="/customer/orders">
-            <i class="fa-solid fa-receipt"></i>
-            My Orders
-        </a>
+    <!-- NAVIGATION CONTENT -->
+    <div class="nav-content" id="navContent">
 
-        <a href="/customer/cart">
-            <i class="fa-solid fa-cart-shopping"></i>
-            Cart
-        </a>
+        <!-- NAVIGATION LINKS -->
+        <div class="nav-links">
 
-        <a href="/role">
-            <i class="fa-solid fa-users"></i>
-            Back to Role
-        </a>
-    </div>
-
-    <div class="nav-right">
-
-        <% if (currentUser) { %>
-
-            <a href="/customer/profile" class="profile-btn">
-                <i class="fa-solid fa-user"></i>
+            <a href="/customer/home">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
             </a>
 
-            <a href="/customer/logout" class="logout-btn">
-                Logout
+            <a href="/customer/restaurants">
+                <i class="fa-solid fa-store"></i>
+                <span>Restaurants</span>
             </a>
+
+            <a href="/customer/orders">
+                <i class="fa-solid fa-receipt"></i>
+                <span>My Orders</span>
+            </a>
+
+            <a href="/customer/cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Cart</span>
+            </a>
+
+            <a href="/role">
+                <i class="fa-solid fa-users"></i>
+                <span>Back to Role</span>
+            </a>
+
+        </div>
+
+        <!-- USER ACTIONS -->
+        <div class="nav-right">
+
+            <% if (currentUser) { %>
+
+                <a href="/customer/profile" class="profile-btn">
+                    <i class="fa-solid fa-user"></i>
+                    <span>My Profile</span>
+                </a>
+
+                <a href="/customer/logout" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
 
             <% } else { %>
 
@@ -56,163 +78,462 @@
                     Create Account
                 </a>
 
-                <% } %>
+            <% } %>
+
+        </div>
 
     </div>
 
 </nav>
 
 <style>
+    /* ================================
+       NAVBAR BASE
+    ================================= */
+
     .customer-navbar {
-        height: 70px;
         width: 100%;
-        background: #fff;
-        border-bottom: 1px solid #eee;
+        min-height: 70px;
+        padding: 0 35px;
+        box-sizing: border-box;
+
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 35px;
+
+        background: #ffffff;
+        border-bottom: 1px solid #eeeeee;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+
         position: sticky;
         top: 0;
         z-index: 1000;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
+
         font-family: "Plus Jakarta Sans", sans-serif;
     }
 
-    .brand {
+    /* ================================
+       BRAND
+    ================================= */
+
+    .customer-navbar .brand {
         display: flex;
         align-items: center;
         gap: 10px;
+
+        flex-shrink: 0;
+
         text-decoration: none;
         color: #ff4b16;
+
         font-size: 21px;
         font-weight: 800;
     }
 
-    .brand-icon {
+    .customer-navbar .brand-icon {
         width: 38px;
         height: 38px;
-        background: #ff4b16;
-        color: #fff;
-        border-radius: 9px;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
+        border-radius: 9px;
+        background: #ff4b16;
+        color: #ffffff;
     }
 
-    .nav-links {
+    /* ================================
+       NAVIGATION CONTENT
+    ================================= */
+
+    .customer-navbar .nav-content {
+        flex: 1;
+        min-width: 0;
+        margin-left: 35px;
+
         display: flex;
         align-items: center;
-        gap: 30px;
+        justify-content: space-between;
+        gap: 20px;
     }
 
-    .nav-links a {
+    /* ================================
+       NAVIGATION LINKS
+    ================================= */
+
+    .customer-navbar .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .customer-navbar .nav-links a {
         display: flex;
         align-items: center;
         gap: 7px;
+
         text-decoration: none;
-        color: #555;
+        color: #555555;
+
         font-size: 14px;
         font-weight: 600;
-        transition: .2s;
+        white-space: nowrap;
+
+        transition: color 0.2s ease;
     }
 
-    .nav-links a:hover {
+    .customer-navbar .nav-links a:hover {
         color: #ff4b16;
     }
 
-    .nav-links i {
+    .customer-navbar .nav-links i {
         font-size: 14px;
     }
 
-    .nav-right {
+    /* ================================
+       RIGHT SIDE BUTTONS
+    ================================= */
+
+    .customer-navbar .nav-right {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
     }
 
-    .profile-btn {
-        width: 38px;
-        height: 38px;
-        border: 1px solid #eee;
-        border-radius: 8px;
-        display: flex;
+    .customer-navbar .profile-btn,
+    .customer-navbar .login-btn,
+    .customer-navbar .signup-btn,
+    .customer-navbar .logout-btn {
+        min-height: 38px;
+        padding: 9px 14px;
+        box-sizing: border-box;
+
+        display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 7px;
+
+        border-radius: 7px;
+
+        font-size: 13px;
+        font-weight: 700;
         text-decoration: none;
-        color: #555;
+        white-space: nowrap;
+
+        transition: background 0.2s ease, color 0.2s ease;
     }
 
-    .profile-btn:hover {
+    .customer-navbar .profile-btn {
+        border: 1px solid #eeeeee;
+        color: #555555;
+    }
+
+    .customer-navbar .profile-btn:hover {
         color: #ff4b16;
         border-color: #ff4b16;
     }
 
-    .login-btn {
-        text-decoration: none;
+    .customer-navbar .login-btn {
         color: #ff4b16;
         border: 1px solid #ff4b16;
-        padding: 8px 16px;
-        border-radius: 7px;
-        font-size: 13px;
-        font-weight: 700;
     }
 
-    .login-btn:hover {
+    .customer-navbar .login-btn:hover {
         background: #fff3ed;
+    }
+
+    .customer-navbar .signup-btn,
+    .customer-navbar .logout-btn {
+        color: #ffffff;
+        background: #ff4b16;
+        border: 1px solid #ff4b16;
+    }
+
+    .customer-navbar .signup-btn:hover,
+    .customer-navbar .logout-btn:hover {
+        background: #e94310;
+        border-color: #e94310;
+    }
+
+    /* ================================
+       HAMBURGER BUTTON
+    ================================= */
+
+    .customer-navbar .menu-toggle {
+        display: none;
+
+        width: 42px;
+        height: 42px;
+        padding: 0;
+
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid #eeeeee;
+        border-radius: 8px;
+
+        background: #ffffff;
         color: #ff4b16;
+
+        font-size: 22px;
+        cursor: pointer;
     }
 
-    .signup-btn {
-        text-decoration: none;
-        background: #ff4b16;
-        color: #fff;
-        padding: 9px 16px;
-        border-radius: 7px;
-        font-size: 13px;
-        font-weight: 700;
+    .customer-navbar .menu-toggle:hover {
+        background: #fff3ed;
     }
 
-    .signup-btn:hover {
-        background: #e94310;
-        color: #fff;
+    .customer-navbar .menu-toggle:focus-visible {
+        outline: 2px solid #ff4b16;
+        outline-offset: 3px;
     }
 
-    .logout-btn {
-        text-decoration: none;
-        background: #ff4b16;
-        color: #fff;
-        padding: 9px 16px;
-        border-radius: 7px;
-        font-size: 13px;
-        font-weight: 700;
-    }
+    /* ================================
+       TABLET AND MOBILE
+    ================================= */
 
-    .logout-btn:hover {
-        background: #e94310;
-        color: #fff;
-    }
-
-    @media (max-width: 850px) {
+    @media (max-width: 1050px) {
 
         .customer-navbar {
-            padding: 0 18px;
+            min-height: 70px;
+            padding: 0 20px;
         }
 
-        .nav-links {
-            gap: 15px;
+        /* Show hamburger */
+        .customer-navbar .menu-toggle {
+            display: flex;
         }
 
-        .nav-links a {
-            font-size: 0;
-        }
-
-        .nav-links i {
-            font-size: 17px;
-        }
-
-        .logout-btn {
+        /* Hide menu by default */
+        .customer-navbar .nav-content {
             display: none;
+
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+
+            width: 100%;
+            max-height: calc(100vh - 70px);
+            overflow-y: auto;
+
+            margin: 0;
+            padding: 16px 20px 22px;
+            box-sizing: border-box;
+
+            flex-direction: column;
+            align-items: stretch;
+            gap: 18px;
+
+            background: #ffffff;
+            border-bottom: 1px solid #eeeeee;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Open menu */
+        .customer-navbar .nav-content.active {
+            display: flex;
+        }
+
+        /* Stack navigation links */
+        .customer-navbar .nav-links {
+            width: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 5px;
+        }
+
+        .customer-navbar .nav-links a {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+        }
+
+        .customer-navbar .nav-links a:hover {
+            background: #fff3ed;
+        }
+
+        .customer-navbar .nav-links i {
+            width: 22px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* Stack account buttons */
+        .customer-navbar .nav-right {
+            width: 100%;
+            padding-top: 14px;
+            box-sizing: border-box;
+
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+
+            border-top: 1px solid #eeeeee;
+        }
+
+        .customer-navbar .profile-btn,
+        .customer-navbar .login-btn,
+        .customer-navbar .signup-btn,
+        .customer-navbar .logout-btn {
+            width: 100%;
+            min-height: 42px;
+            box-sizing: border-box;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    /* ================================
+       SMALL MOBILE
+    ================================= */
+
+    @media (max-width: 400px) {
+
+        .customer-navbar {
+            padding: 0 14px;
+        }
+
+        .customer-navbar .brand {
+            gap: 8px;
+            font-size: 19px;
+        }
+
+        .customer-navbar .brand-icon {
+            width: 35px;
+            height: 35px;
+        }
+
+        .customer-navbar .menu-toggle {
+            width: 40px;
+            height: 40px;
+        }
+
+        .customer-navbar .nav-content {
+            padding-left: 14px;
+            padding-right: 14px;
         }
     }
 </style>
+
+<script>
+(function () {
+
+    function initializeCustomerNavbar() {
+
+        const navbar = document.querySelector(".customer-navbar");
+
+        if (!navbar) return;
+
+        const menuToggle = navbar.querySelector("#menuToggle");
+        const navContent = navbar.querySelector("#navContent");
+
+        if (!menuToggle || !navContent) return;
+
+        // Prevent duplicate event listeners
+        if (menuToggle.dataset.initialized === "true") return;
+        menuToggle.dataset.initialized = "true";
+
+        const menuIcon = menuToggle.querySelector("i");
+
+        function setMenuState(isOpen) {
+
+            navContent.classList.toggle("active", isOpen);
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen ? "Close navigation menu" : "Open navigation menu"
+            );
+
+            if (menuIcon) {
+                menuIcon.classList.toggle("fa-bars", !isOpen);
+                menuIcon.classList.toggle("fa-xmark", isOpen);
+            }
+        }
+
+        // Toggle menu on button click
+        menuToggle.addEventListener("click", function (event) {
+
+            event.stopPropagation();
+
+            const isOpen = navContent.classList.contains("active");
+
+            setMenuState(!isOpen);
+        });
+
+        // Close menu after clicking a link
+        navContent.querySelectorAll("a").forEach(function (link) {
+
+            link.addEventListener("click", function () {
+                setMenuState(false);
+            });
+
+        });
+
+        // Close menu when clicking outside navbar
+        document.addEventListener("click", function (event) {
+
+            if (!navbar.contains(event.target)) {
+                setMenuState(false);
+            }
+
+        });
+
+        // Close menu with Escape key
+        document.addEventListener("keydown", function (event) {
+
+            if (event.key === "Escape") {
+                setMenuState(false);
+                menuToggle.focus();
+            }
+
+        });
+
+        // Close mobile menu when switching to desktop
+        window.addEventListener("resize", function () {
+
+            if (window.innerWidth > 1050) {
+                setMenuState(false);
+            }
+
+        });
+
+    }
+
+    // Works whether script loads before or after DOMContentLoaded
+    if (document.readyState === "loading") {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeCustomerNavbar
+        );
+
+    } else {
+
+        initializeCustomerNavbar();
+
+    }
+
+})();
+</script>
+

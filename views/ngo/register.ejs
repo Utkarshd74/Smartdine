@@ -1,112 +1,78 @@
 <% layout("/layouts/boilerplateNGO") %>
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-7 col-lg-6">
 
-            <div class="card shadow border-0 rounded-4">
-                <div class="card-body p-4 p-md-5">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-6">
 
-                    <div class="text-center mb-4">
-                        <i class="fa-solid fa-hand-holding-heart fa-3x text-success mb-3"></i>
-                        <h2 class="fw-bold">NGO Registration</h2>
-                        <p class="text-muted">
-                            Register your NGO with SmartDine.
-                        </p>
+                    <div class="card shadow border-0 rounded-4">
+                        <div class="card-body p-4 p-md-5">
+
+                            <div class="text-center mb-4">
+                                <i class="fa-solid fa-hand-holding-heart fa-3x text-success mb-3"></i>
+                                <h2 class="fw-bold">NGO Registration</h2>
+                                <p class="text-muted">
+                                    Register your NGO with SmartDine.
+                                </p>
+                            </div>
+
+                            <form action="/ngo/register" method="POST">
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">NGO Name</label>
+                                    <input type="text" id="name" name="name" class="form-control"
+                                        placeholder="Enter NGO name" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" id="email" name="email" class="form-control"
+                                        placeholder="Enter email" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" class="form-control"
+                                        placeholder="Enter phone number" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">NGO Address</label>
+                                    <textarea id="address" name="address" class="form-control" rows="2"
+                                        placeholder="Enter complete address" required></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">
+                                        About NGO
+                                    </label>
+                                    <textarea id="description" name="description" class="form-control" rows="2"
+                                        placeholder="Describe your NGO"></textarea>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" id="password" name="password" class="form-control"
+                                        placeholder="Create a password" minlength="8" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-success w-100 py-2">
+                                    Register NGO
+                                </button>
+
+                            </form>
+
+                            <p class="text-center mt-4 mb-0">
+                                Already registered?
+                                <a href="/ngo/login" class="text-success fw-semibold">
+                                    Login here
+                                </a>
+                            </p>
+
+                        </div>
                     </div>
-
-                    <form action="/ngo/register" method="POST">
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">NGO Name</label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                class="form-control"
-                                placeholder="Enter NGO name"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                class="form-control"
-                                placeholder="Enter email"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                class="form-control"
-                                placeholder="Enter phone number"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="address" class="form-label">NGO Address</label>
-                            <textarea
-                                id="address"
-                                name="address"
-                                class="form-control"
-                                rows="2"
-                                placeholder="Enter complete address"
-                                required
-                            ></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="description" class="form-label">
-                                About NGO
-                            </label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                class="form-control"
-                                rows="2"
-                                placeholder="Describe your NGO"
-                            ></textarea>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="password" class="form-label">Password</label>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                class="form-control"
-                                placeholder="Create a password"
-                                minlength="8"
-                                required
-                            >
-                        </div>
-
-                        <button type="submit" class="btn btn-success w-100 py-2">
-                            Register NGO
-                        </button>
-
-                    </form>
-
-                    <p class="text-center mt-4 mb-0">
-                        Already registered?
-                        <a href="/ngo/login" class="text-success fw-semibold">
-                            Login here
-                        </a>
-                    </p>
 
                 </div>
             </div>
-
         </div>
-    </div>
-</div>
+    
